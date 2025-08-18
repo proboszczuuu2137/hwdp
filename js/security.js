@@ -2,30 +2,7 @@ const isAndroid = /Android/i.test(navigator.userAgent);
 const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
 const approvedFingerprints = {
-    // Add your pre-approved fingerprints here
-    "eyJ1c2VyQWdlbnQiOiJNb3ppbGxhLzUuMCAoV2luZG93cyBOVCAxMC4wOyBXaW42NDsgeDY0KSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvMTMxLjAuMC4wIFNhZmFyaS81MzcuMzYgRWRnLzEzMS4wLjAuMCIsImxhbmd1YWdlIjoicGwiLCJwbGF0Zm9ybSI6IldpbjMyIiwicmVzb2x1dGlvbiI6IjE1MzZ4ODY0IiwiY29sb3JEZXB0aCI6MjQsInRpbWV6b25lIjoiRXVyb3BlL1dhcnNhdyIsInRvdWNoUG9pbnRzIjowLCJ2ZW5kb3IiOiJHb29nbGUgSW5jLiJ9": true,
-    "eyJ1c2VyQWdlbnQiOiJNb3ppbGxhLzUuMCAoaVBob25lOyBDUFUgaVBob25lIE9TIDE4XzAgbGlrZSBNYWMgT1MgWCkgQXBwbGVXZWJLaXQvNjA1LjEuMTUgKEtIVE1MLCBsaWtlIEdlY2tvKSBWZXJzaW9uLzE4LjAgTW9iaWxlLzE1RTE0OCBTYWZhcmkvNjA0LjEiLCJsYW5ndWFnZSI6InBsLVBMIiwicGxhdGZvcm0iOiJpUGhvbmUiLCJyZXNvbHV0aW9uIjoiMzc1eDgxMiIsImNvbG9yRGVwdGgiOjI0LCJ0aW1lem9uZSI6IkV1cm9wZS9XYXJzYXciLCJ0b3VjaFBvaW50cyI6NSwidmVuZG9yIjoiQXBwbGUgQ29tcHV0ZXIsIEluYy4ifQ==": true,
-    "eyJ1c2VyQWdlbnQiOiJNb3ppbGxhLzUuMCAoTGludXg7IEFuZHJvaWQgMTA7IEspIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS8xMTAuMC4wLjAgTW9iaWxlIFNhZmFyaS81MzcuMzYiLCJsYW5ndWFnZSI6InBsLVBMIiwicGxhdGZvcm0iOiJMaW51eCBhcm12ODEiLCJyZXNvbHV0aW9uIjoiMzkzeDg3MyIsImNvbG9yRGVwdGgiOjI0LCJ0aW1lem9uZSI6IkV1cm9wZS9XYXJzYXciLCJ0b3VjaFBvaW50cyI6NSwidmVuZG9yIjoiR29vZ2xlIEluYy4ifQ==": true,
-    "eyJ1c2VyQWdlbnQiOiJNb3ppbGxhLzUuMCAoTGludXg7IEFuZHJvaWQgMTA7IEspIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIFNhbXN1bmdCcm93c2VyLzI3LjAgQ2hyb21lLzEyNS4wLjAuMCBNb2JpbGUgU2FmYXJpLzUzNy4zNiIsImxhbmd1YWdlIjoicGwtUEwiLCJwbGF0Zm9ybSI6IkxpbnV4IGFybXY4MSIsInJlc29sdXRpb24iOiIzNjB4NzA1IiwiY29sb3JEZXB0aCI6MjQsInRpbWV6b25lIjoiRXVyb3BlL1dhcnNhdyIsInRvdWNoUG9pbnRzIjo1LCJ2ZW5kb3IiOiJHb29nbGUgSW5jLiJ9": true,
-    "4": true,
-    "4": true,
-    "4": true,
-    "4": true,
-    "4": true,
-    "4": true,
-    "4": true,
-    "4": true,
-    "4": true,
-    "4": true,
-    "4": true,
-    "4": true,
-    "4": true,
-    "4": true,
-    "4": true,
-    "4": true,
-    "4": true,
-    "4": true,
-    "4": true,
+    // Twoje wpisy fingerprintów
 };
 
 function verifyFingerprint(fingerprint) {
@@ -38,7 +15,6 @@ function generateFingerprint() {
     }
 
     const components = {
-        // Basic device info
         userAgent: navigator.userAgent,
         language: navigator.language,
         platform: navigator.platform,
@@ -47,9 +23,7 @@ function generateFingerprint() {
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         touchPoints: navigator.maxTouchPoints,
         vendor: navigator.vendor,
-        // iOS specific
         isIOS: isIOS,
-        // Device specific
         canvas: generateCanvasFingerprint(),
         webgl: generateWebGLFingerprint(),
         audio: generateAudioFingerprint()
@@ -64,7 +38,6 @@ function generateCanvasFingerprint() {
     canvas.width = 200;
     canvas.height = 200;
     
-    // Add text with different styling
     ctx.textBaseline = "top";
     ctx.font = "14px 'Arial'";
     ctx.textBaseline = "alphabetic";
@@ -177,7 +150,8 @@ function checkInstallationAndDevice() {
             return;
         }
 
-        if (!isStandalone && !isAndroid) {
+        // 🔥 tu poprawka – Android nie ma blokady, tylko iOS
+        if (!isStandalone && isIOS) {
             document.body.style.display = 'none';
             const message = document.createElement('div');
             message.innerHTML = `
@@ -188,9 +162,7 @@ function checkInstallationAndDevice() {
                         </div>
                         <h2 style="font-family: 'Inter', sans-serif; font-weight: 600; margin: 0;">Wymagane dodanie do ekranu głównego</h2>
                         <div style="margin: 20px 0; color: #666; font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.5;">
-                            ${isIOS ? 
-                                'Aby kontynuować:<br>1. Kliknij ikonę "Udostępnij"<br>2. Wybierz "Dodaj do ekranu głównego"<br>3. Otwórz aplikację z ekranu głównego' : 
-                                'Aby kontynuować:<br>1. Kliknij menu (3 kropki)<br>2. Wybierz "Dodaj do ekranu głównego"<br>3. Otwórz aplikację z ekranu głównego'}
+                            Aby kontynuować:<br>1. Kliknij ikonę "Udostępnij"<br>2. Wybierz "Dodaj do ekranu głównego"<br>3. Otwórz aplikację z ekranu głównego
                         </div>
                         <div style="margin-top: 20px; font-size: 12px; color: #999; opacity: 0.7;">
                             xObywatel • <a href="https://discord.gg/jQcVyeJKQm" style="color: #064792; text-decoration: none;">Discord</a>
@@ -212,14 +184,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Block print and save
 window.addEventListener('beforeprint', (e) => e.preventDefault());
-// window.onbeforeunload = () => '';  // Remove or comment this line
 
-// Add platform specific handling
+// Android-specific tweaks
 if (isAndroid) {
-    // Clear any existing beforeunload handlers
     window.onbeforeunload = null;
-    
-    // Prevent new beforeunload handlers
     window.addEventListener('beforeunload', (e) => {
         e.stopImmediatePropagation();
         e.stopPropagation();
